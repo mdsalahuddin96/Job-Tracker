@@ -19,6 +19,14 @@ function getStatusElm(event){
     const badge=left.querySelector('.badge');
     return badge ? badge: "";
 }
+function getStatusClass(status) {
+  const statusMap = {
+    INTERVIEW: "badge-success",
+    REJECTED: "badge-error"
+  };
+
+  return statusMap[status]||"badge-ghost hidden";
+}
 function parseHTML(job){
     return `
         <div id=${job.id} class="Card flex justify-between bg-base-100 rounded-md p-5">
@@ -35,7 +43,7 @@ function parseHTML(job){
                     <p>.</p>
                     <p class="salary">${job.salary}</p>
                 </div>
-                <div class="badge rounded-sm hidden">${job.status}</div>
+                <div class="badge ${getStatusClass(job.status)} rounded-sm">${job.status}</div>
                 <p class="description">${job.description}</p>
                 <div class="card-actions">
                     <button id="interview-btn" class="btn btn-outline btn-success">INTERVIEW</button>
@@ -49,18 +57,3 @@ function parseHTML(job){
             </div>
     `
 }
-
-// if (
-//   event.target.id === "interview-btn" &&
-//   Array.isArray(jobs[cardId].interviewList) &&
-//   jobs[cardId].interviewList.length > 0
-// ) {
-//   const cardId = event.target.closest(".card").id;
-//   const status = getStatusElm(event);
-
-//   status.classList.remove("hidden");
-//   status.classList.add("badge-success");
-//   status.innerText = "INTERVIEW";
-
-//   jobs[cardId].status = "INTERVIEW";
-// }

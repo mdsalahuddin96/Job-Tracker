@@ -168,6 +168,7 @@ allJobContainer.addEventListener('click',(event)=>{
     if(event.target.id=='interview-btn'){
         const cardId=event.target.closest(".Card").id; 
         const status=getStatusElm(event);
+        status.classList.remove('badge-ghost')
         status.classList.add('badge-success')
         status.classList.remove('hidden')
         status.innerText=event.target.innerText;
@@ -192,6 +193,7 @@ allJobContainer.addEventListener('click',(event)=>{
     if(event.target.id=='rejected-btn'){
         const cardId=event.target.closest(".Card").id; 
         const status=getStatusElm(event);
+        status.classList.remove('badge-ghost')
         status.classList.add('badge-error')
         status.classList.remove('hidden')
         status.innerText=event.target.innerText;
