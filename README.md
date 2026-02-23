@@ -21,9 +21,19 @@ How does it work’s let explain with an example:
 <div id="parent">
   <button id="child">Click Me</button>
 </div>
-```  
+```
 If we click the button:  
 i.	The event first happens on the button (target element).  
 ii.	Then it moves up to the div (parent).  
 iii.	Then it continues to higher-level elements like body, html, and finally document  
-
+# 4. What is Event Delegation in JavaScript? Why is it useful?
+## Ans:
+Event delegation is a technique in JavaScript where a single event listener is attached to a parent element to handle events triggered by its child elements using event bubbling. It works by detecting the actual target element through event.target.  
+It is useful because:  
+- It gives better perfomance by reducing the number of event listener  
+- Easy to handle dynamically added element.  
+- It optimize memory usage.  
+# 5. What is the difference between preventDefault() and stopPropagation() methods?
+## Ans:
+preventDefault() prevents the browser’s default behavior like form submission or link navigation.
+stopPropagation() prevents the event from bubbling up to parent elements but does not stop the default browser behavior.
