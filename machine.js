@@ -36,7 +36,7 @@ function parseHTML(job){
                     <h2 class="companyName text-2xl font-bold">${job.companyName}</h2>
                     <p class="position text-sm md:text-lg">${job.position}</p>
                 </div>
-                <div class="flex gap-2">
+                <div class="flex text-sm gap-1 md:text-lg md:gap-2">
                     <p class="location">${job.location}</p>
                     <p>.</p>
                     <p class="type">${job.type}</p>
@@ -44,7 +44,7 @@ function parseHTML(job){
                     <p class="salary">${job.salary}</p>
                 </div>
                 <div class="badge ${getStatusClass(job.status)} rounded-sm">${job.status}</div>
-                <p class="description">${job.description}</p>
+                <p class="description text-sm md:text-lg">${job.description}</p>
                 <div class="card-actions">
                     <button id="interview-btn" class="btn btn-outline btn-success">INTERVIEW</button>
                     <button id='rejected-btn' class="btn btn-outline btn-error">REJECTED</button>
