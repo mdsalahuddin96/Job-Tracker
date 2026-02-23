@@ -290,3 +290,30 @@ interviewSection.addEventListener('click',function(event){
     //    }
     // }
 })
+rejectSection.addEventListener('click',function(event){
+    if(event.target.id=='rejected-btn'){
+        return;
+    }
+    if(event.target.id=='interview-btn'){
+        // add to interview section
+        const id=event.target.closest('.Card').id;
+        const selectedCard=rejectList.find((item)=>item.id==id);
+        selectedCard.status="INTERVIEW";
+        interviewList.push(selectedCard);
+        setValue('interviewCount',interviewList.length);
+        interviewSection.innerHTML="";
+        for(const interview of interviewList){
+            interviewSection.insertAdjacentHTML('beforeend',parseHTML(interview))
+        }
+        // remove from interview list
+        rejectList=removeJobs(rejectList,id);
+        event.target.closest('.Card').remove()
+        setValue('rejectedCount',rejectList.length);
+        if(rejectList.length<1){
+            rejectSection.classList.add('hidden');
+            noJobSection.classList.remove('hidden');
+        }
+        const count=rejectList.length;
+        selectedJob.innerText=count>0?`${count} of `:"";
+    }
+})
