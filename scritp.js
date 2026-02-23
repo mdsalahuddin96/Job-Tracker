@@ -237,11 +237,12 @@ allJobContainer.addEventListener('click',function(event){
         // }
         
     }
-    if(event.target.className=='delete'){
+    if(event.target.id=='delete'){
        const id=event.target.closest('.Card').id;
        jobs=removeJobs(jobs,id);
        event.target.closest('.Card').remove()
        setValue('totalCount',jobs.length);
+       setValue('availableJobs',jobs.length);
        if(jobs.length==0){
         allJobContainer.classList.add('hidden');
         noJobSection.classList.remove('hidden')

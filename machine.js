@@ -29,12 +29,12 @@ function getStatusClass(status) {
 }
 function parseHTML(job){
     return `
-        <div id=${job.id} class="Card flex justify-between bg-base-100 rounded-md p-5">
+        <div id=${job.id} class="Card flex flex-col gap-4 md:justify-between md:flex-row bg-base-100 rounded-md p-5">
             <!-- card left side element -->
             <div class="left space-y-3">
                 <div>
                     <h2 class="companyName text-2xl font-bold">${job.companyName}</h2>
-                    <p class="position">${job.position}</p>
+                    <p class="position text-sm md:text-lg">${job.position}</p>
                 </div>
                 <div class="flex gap-2">
                     <p class="location">${job.location}</p>
@@ -51,8 +51,8 @@ function parseHTML(job){
                 </div>
             </div>
             <!-- card right side delete element -->
-            <div class="right delete border border-gray-400 w-7 h-7 rounded-md flex items-center justify-center">
-                <img class="delete" src="./Vector.png">
+            <div class="right border border-gray-400 w-7 h-7 rounded-md flex self-end items-center justify-center md:self-start">
+                <img id="delete" class="cursor-pointer" src="./Vector.png">
             </div>
             </div>
     `
