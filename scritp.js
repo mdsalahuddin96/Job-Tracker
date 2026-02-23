@@ -101,7 +101,7 @@ for(const job of jobs){
 setValue('totalCount',jobs.length);
 
 // three button toggle
-getElement('three-btn').addEventListener('click',(event)=>{
+getElement('three-btn').addEventListener('click',function(event){
     const threeBtn=getElement('three-btn').children;
     if(event.target.tagName=='BUTTON'){
         for(let btn of threeBtn){
@@ -164,54 +164,78 @@ getElement('three-btn').addEventListener('click',(event)=>{
 
 // All Job container;
 
-allJobContainer.addEventListener('click',(event)=>{
+allJobContainer.addEventListener('click',function(event){
     if(event.target.id=='interview-btn'){
-        const cardId=event.target.closest(".Card").id; 
-        const status=getStatusElm(event);
-        status.classList.remove('badge-ghost')
-        status.classList.add('badge-success')
-        status.classList.remove('hidden')
-        status.innerText=event.target.innerText;
-        jobs[cardId-1].status="INTERVIEW";
-
-        const selectedCard=jobs.find((item)=>item.id==cardId);
-        const isExist=interviewList.find(item=>item.id==selectedCard.id);
-        if(isExist){
-            alert('already selected');
+        const id=event.target.closest(".Card").id; 
+        const selectedCard=jobs.find((item)=>item.id==id);
+        if(selectedCard.status=="INTERVIEW"){
             return;
         }
-        else{
-            interviewList.push(selectedCard)
+        
+        if(selectedCard.status=="REJECTED"){
+            rejectList=removeJobs(rejectList,id);
+            rejectSection.innerHTML="";
+            setValue('rejectedCount',rejectList.length);
+            for(const reject of rejectList){
+                rejectSection.insertAdjacentHTML('beforeend',parseHTML(reject))
+            }
         }
         
+        selectedCard.status='INTERVIEW';
+        interviewList.push(selectedCard);
         setValue('interviewCount',interviewList.length);
         interviewSection.innerHTML="";
         for(const interview of interviewList){
             interviewSection.insertAdjacentHTML('beforeend',parseHTML(interview))
         }
+        
+        const status=getStatusElm(event);
+        status.classList.remove('badge-ghost','badge-error')
+        status.classList.add('badge-success')
+        status.classList.remove('hidden')
+        status.innerText=event.target.innerText;    
     }
     if(event.target.id=='rejected-btn'){
-        const cardId=event.target.closest(".Card").id; 
-        const status=getStatusElm(event);
-        status.classList.remove('badge-ghost')
-        status.classList.add('badge-error')
-        status.classList.remove('hidden')
-        status.innerText=event.target.innerText;
-        jobs[cardId-1].status="REJECTED"
-        const selectedCard=jobs.find((item)=>item.id==cardId);
-        const isExist=rejectList.find(item=>item.id==selectedCard.id);
-        if(isExist){
-            alert('already selected');
+        const id=event.target.closest(".Card").id; 
+        const selectedCard=jobs.find((item)=>item.id==id);
+        if(selectedCard.status=='REJECTED'){
             return;
         }
-        else{
-            rejectList.push(selectedCard)
+        
+        if(selectedCard.status=="INTERVIEW"){
+            interviewList=removeJobs(interviewList,id);
+            interviewSection.innerHTML="";
+            setValue('interviewCount',interviewList.length);
+            for(const interview of interviewList){
+                interviewSection.insertAdjacentHTML('beforeend',parseHTML(interview))
+            }
         }
+        
+        selectedCard.status="REJECTED";
+        rejectList.push(selectedCard);
         setValue('rejectedCount',rejectList.length);
         rejectSection.innerHTML="";
         for(const reject of rejectList){
             rejectSection.insertAdjacentHTML('beforeend',parseHTML(reject))
         }
+        
+        
+        const status=getStatusElm(event);
+        status.classList.remove('badge-ghost','badge-success')
+        status.classList.add('badge-error')
+        status.classList.remove('hidden')
+        status.innerText=event.target.innerText;
+        // jobs[cardId-1].status="REJECTED"
+        
+        // const isExist=rejectList.find(item=>item.id==selectedCard.id);
+        // if(isExist){
+        //     alert('already selected');
+        //     return;
+        // }
+        // else{
+        //     rejectList.push(selectedCard)
+        // }
+        
     }
     if(event.target.className=='delete'){
        const id=event.target.closest('.Card').id;
@@ -225,3 +249,43 @@ allJobContainer.addEventListener('click',(event)=>{
     }
 })
 
+// Interview Job section
+interviewSection.addEventListener('click',function(event){
+    if(event.target.id=='interview-btn'){
+        return;
+    }
+    if(event.target.id=='rejected-btn'){
+        // add to rejected section
+        const id=event.target.closest('.Card').id;
+        const selectedCard=interviewList.find((item)=>item.id==id);
+        selectedCard.status="REJECTED";
+        rejectList.push(selectedCard);
+        setValue('rejectedCount',rejectList.length);
+        rejectSection.innerHTML="";
+        for(const reject of rejectList){
+            rejectSection.insertAdjacentHTML('beforeend',parseHTML(reject))
+        }
+
+        // remove from interview list
+        interviewList=removeJobs(interviewList,id);
+        event.target.closest('.Card').remove()
+        setValue('interviewCount',interviewList.length);
+        if(interviewList.length<1){
+            interviewSection.classList.add('hidden');
+            noJobSection.classList.remove('hidden');
+        }
+        const count=interviewList.length;
+        selectedJob.innerText=count>0?`${count} of `:"";
+        
+    }
+    // if(event.target.className=='delete'){
+    //    const id=event.target.closest('.Card').id;
+    //    jobs=removeJobs(jobs,id);
+    //    event.target.closest('.Card').remove()
+    //    setValue('totalCount',jobs.length);
+    //    if(jobs.length==0){
+    //     allJobContainer.classList.add('hidden');
+    //     noJobSection.classList.remove('hidden')
+    //    }
+    // }
+})
