@@ -360,7 +360,7 @@ rejectSection.addEventListener('click',function(event){
        rejectList=removeJobs(rejectList,id);
        const count=rejectList.length;
        selectedJob.innerText=count>0?`${count} of `:"0 of ";
-       setValue('rejectedCount',interviewList.length);
+       setValue('rejectedCount',rejectList.length);
        rejectSection.innerHTML="";
        for(const reject of rejectList){
             rejectSection.insertAdjacentHTML('beforeend',parseHTML(reject))
